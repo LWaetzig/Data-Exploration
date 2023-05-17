@@ -89,3 +89,36 @@ for i, img_path in enumerate(os.listdir(test_dir)):
     print("Vorhergesagtes Label:", predicted_labels[i])
     print("")
 
+
+
+
+
+
+test_dir = os.path.join("data", "Test")
+output_dir = os.path.join("data", "Output")
+
+# Testdaten einlesen
+test_images = []
+test_labels = []
+
+for img_path in os.listdir(test_dir):
+    img = cv2.imread(os.path.join(test_dir, img_path))
+    img = cv2.resize(img, (32, 32))  # Größe anpassen, falls erforderlich
+    test_images.append(img)
+
+# Daten in NumPy-Array konvertieren
+test_images = np.array(test_images)
+
+# Vorhersagen mit dem Modell machen
+predictions = model.predict(test_images)
+
+# Labels aus den Vorhersagen extrahieren
+predicted_labels = np.argmax(predictions, axis=1)
+
+# Bilder in entsprechende Ordner sortieren
+for i, img_path in enumerate(os.listdir(test_dir)):
+    predicted_label = predicted_labels[i]
+    output_label_dir = os.path.join(output_dir, str(predicted_label))
+    os.makedirs(output_label_dir, exist_ok=True)
+    output_path = os.path.join(output_label_dir, img_path)
+    cv2.imwrite(output_path, test_images[i])
