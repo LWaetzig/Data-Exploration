@@ -6,7 +6,10 @@ from tensorflow import keras
 from tqdm import tqdm
 
 
-# Einlesen und vorbereiten der Daten
+
+
+
+# Einlesen und Vorbereiten der Trainingsdaten
 
 train_dir = os.path.join("data", "Train")
 meta_dir = os.path.join("data", "Meta")
@@ -50,6 +53,9 @@ model = keras.Sequential([
 ])
 
 
+
+
+
 # Modell kompilieren und trainieren
 
 model.compile(optimizer='adam',
@@ -62,6 +68,7 @@ model.fit(images, labels, epochs=20, batch_size=32, validation_split=0.2)
 
 
 
+# Modell auf Testdaten testen und Bildnamen mit verhergesagtem Label ausgeben lassen
 
 test_dir = os.path.join("data", "Test")
 
@@ -93,6 +100,7 @@ for i, img_path in enumerate(os.listdir(test_dir)):
 
 
 
+# Modell auf Testdaten testen und die Bilder je nach Vorhersage in einzelne Ordner sortieren lassen
 
 test_dir = os.path.join("data", "Test")
 output_dir = os.path.join("data", "Output")
