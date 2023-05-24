@@ -71,3 +71,28 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 model.fit(train_data, train_labels, batch_size=32, epochs=10, validation_data=(val_data, val_labels))
 
 
+# prediction with the test data
+from sklearn.metrics import accuracy_score
+import pandas as pd 
+from PIL import Image
+import numpy as np  
+
+y_test = pd.read_csv('data/test.csv')
+
+labels = y_test["ClassId"].values
+imgs = y_test["Path"].values
+
+data=[]
+
+for img in imgs:
+    image = Image.open(img)
+    image = image.resize((32,32))
+    data.append(np.array(image))
+
+X_test=np.array(data)
+
+pred = np.argmax(model.predict(X_test), axis=-1)
+
+#Accuracy with the test data
+from sklearn.metrics import accuracy_score
+print(accuracy_score(labels, pred))
