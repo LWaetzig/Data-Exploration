@@ -1,0 +1,18 @@
+{
+    "path" : "path/to/image/folder/",
+    "class" : "class for traffic sign",
+    "shape": {
+        "circle": 0,
+        "triangle": 1,
+        "hexagon": 2,
+        "diamond": 3,
+        "inverse triangle": 4
+    },
+    "color": {
+        "white": 0,
+        "blue": 1,
+        "yellow": 2,
+        "red": 3
+    },
+    "description": "description of traffic sign"
+}
