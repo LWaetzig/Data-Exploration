@@ -57,7 +57,7 @@ train_images, train_labels = load_data(train_df)
 test_images, test_labels = load_data(test_df)
 
 
-# Aufteilen der Trainingsdaten in Trainings- und Validierungsdaten um den Lernprozess zu überwachen
+# Aufteilen der Trainingsdaten in Trainings- und Validierungsdaten
 train_images, valid_images, train_labels, valid_labels = train_test_split(train_images, train_labels, test_size=0.2, random_state=42)
 
 
