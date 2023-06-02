@@ -21,7 +21,7 @@ class Model:
             self.colorload = cv2.IMREAD_GRAYSCALE
             self.colorchannels = 1
         else:
-            self.colorload = None
+            self.colorload = cv2.IMREAD_COLOR
             self.colorchannels = 3
 
         self.model = None
@@ -33,14 +33,14 @@ class Model:
         img = img / 255.0
         return img
 
-    def load_data(df, image_size):
+    def load_data(self, df, image_size):
         images = []
         labels = []
         for i, row in df.iterrows():
             path = row['Path']
             label = row['ClassId']
             image_path = os.path.join(path)
-            image = Model.load_image(image_path, image_size)
+            image = self.load_image(image_path, image_size)
             images.append(image)
             labels.append(label)
         return np.array(images), np.array(labels)
@@ -58,12 +58,12 @@ class Model:
                       metrics=['accuracy'])
         return model
 
-    def find_best_hyperparams(self, param_grid, cv=3):
+    def find_best_hyperparams(self, param_grid, train_images, train_labels, cv=3):
         keras_model = keras.wrappers.scikit_learn.KerasClassifier(build_fn=self.create_model, verbose=1)
 
         # Grid-Suche durchführen
         grid_search = GridSearchCV(estimator=keras_model, param_grid=param_grid, cv=cv)
-        grid_search.fit(self.train_images, self.train_labels)
+        grid_search.fit(train_images, train_labels)
 
         # Beste Hyperparameter auslesen
         best_params = grid_search.best_params_
