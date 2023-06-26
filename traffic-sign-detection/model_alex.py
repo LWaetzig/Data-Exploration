@@ -70,6 +70,8 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 # train the model
 model.fit(train_data, train_labels, batch_size=32, epochs=10, validation_data=(val_data, val_labels))
 
+# save the model
+model.save('tsr_model_v1')
 
 # prediction with the test data
 from sklearn.metrics import accuracy_score
@@ -89,10 +91,25 @@ for img in imgs:
     image = image.resize((32,32))
     data.append(np.array(image))
 
-X_test=np.array(data)
+test=np.array(data)
 
-pred = np.argmax(model.predict(X_test), axis=-1)
+pred = np.argmax(model.predict(test), axis=-1)
 
 #Accuracy with the test data
 from sklearn.metrics import accuracy_score
 print(accuracy_score(labels, pred))
+
+
+#test with a single image
+import matplotlib.pyplot as plt
+img = Image.open('data/Test/00011.png')
+img = img.resize((32,32))
+img = np.array(img)
+plt.imshow(img)
+pred = np.argmax(model.predict(img.reshape(1, 32, 32, 3)), axis=-1)
+print(pred)
+
+#print the traffic sign name of the upper picture
+print(classes[pred[0]])
+
+
